@@ -1,6 +1,7 @@
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.Optional;
 
 public class Promise<T> {
 
@@ -8,8 +9,11 @@ public class Promise<T> {
   private final AtomicReference<T> value = new AtomicReference<>();
 
   public void deliver(T value) {
+    if (value == null) {
+          throw new IllegalArgumentException("`value` cannot be null.");
+    }
     this.value.set(value);
-    latch.countDown();
+    this.latch.countDown();
   }
 
   public T get() throws InterruptedException {
@@ -17,19 +21,18 @@ public class Promise<T> {
     return this.value.get();
   }
 
-  public T get(long timeout, TimeUnit unit, T defaultValue) throws InterruptedException {
+  public Optional<T> get(long timeout, TimeUnit unit) throws InterruptedException {
     final boolean delivered = this.latch.await(timeout, unit);
     if (!delivered) {
-      return defaultValue;
+      return Optional.empty();
     }
-
-    return this.value.get();
+    return Optional.of(value.get());
   }
 
   public static void main(String[] args) throws InterruptedException {
     System.out.println("Hello world");
     Promise<Integer> p = new Promise<Integer>();
-    Integer x = p.get(3, TimeUnit.SECONDS, 5);
+    Optional<Integer> x = p.get(3, TimeUnit.SECONDS);
     System.out.printf("Waited and got %s%n", x);
   }
 }
