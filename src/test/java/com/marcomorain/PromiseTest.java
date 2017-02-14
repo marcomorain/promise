@@ -23,13 +23,14 @@ public class PromiseTest {
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
+                } finally {
                     p.deliver(32);
                 }
 
             }
         };
         t.start();
-        assertEquals(34, p.get().longValue());
+        assertEquals(32, p.get().longValue());
     }
 
 }
