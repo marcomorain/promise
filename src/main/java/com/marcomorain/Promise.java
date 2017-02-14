@@ -10,6 +10,13 @@ public class Promise<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
     private final AtomicReference<T> value = new AtomicReference<>();
 
+    private Promise() {
+    }
+
+    public static<T> Promise<T> newPromise() {
+        return new Promise<T>();
+    }
+
     public void deliver(T value) {
         if (value == null) {
             throw new IllegalArgumentException("`value` cannot be null.");
