@@ -37,5 +37,4 @@ public class Promise<T> {
         }
         return Optional.of(value.get());
     }
-
 }
