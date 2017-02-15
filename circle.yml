@@ -8,7 +8,7 @@ dependencies:
   override:
     - ./gradlew --offline testClasses || ./gradlew testClasses
 
-  test:
+test:
   override:
     - ./gradlew --offline test
   post:
