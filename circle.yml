@@ -1,4 +1,9 @@
+dependencies:
+  override:
+    - ./gradlew --offline testClasses || ./gradlew testClasses
 test:
+  override:
+    - ./gradlew --offline test
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find build/test-results -name "*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
