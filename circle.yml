@@ -1,4 +1,6 @@
 dependencies:
+  pre:
+    - nohup ./gradlew
   override:
     - ./gradlew --offline testClasses || ./gradlew testClasses
 test:
